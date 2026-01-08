@@ -1,0 +1,42 @@
+============================================================
+CLASS DISTRIBUTION ANALYSIS - Bow River Wetlands
+============================================================
+
+Raster shape: (20607, 31428)
+Total pixels: 647,636,796
+
+Valid labeled pixels: 647,636,796 (100.00%)
+
+============================================================
+FULL DATASET CLASS DISTRIBUTION
+============================================================
+
+  Class 0:  628,324,120 pixels (97.02%) ################################################
+  Class 1:       19,225 pixels ( 0.00%) 
+  Class 2:      901,620 pixels ( 0.14%) 
+  Class 3:   14,644,713 pixels ( 2.26%) #
+  Class 4:    2,272,457 pixels ( 0.35%) 
+  Class 5:    1,474,661 pixels ( 0.23%) 
+
+  Imbalance ratio: 32682.7:1 (largest to smallest class)
+
+============================================================
+SAMPLED DISTRIBUTION (for training)
+============================================================
+
+  Class 0:      600,000 sampled (39.49%) ###################
+           Using  0.10% of available 628,324,120 pixels
+  Class 1:       19,225 sampled ( 1.27%) 
+           Using 100.00% of available 19,225 pixels
+  Class 2:      150,000 sampled ( 9.87%) ####
+           Using 16.64% of available 901,620 pixels
+  Class 3:      500,000 sampled (32.91%) ################
+           Using  3.41% of available 14,644,713 pixels
+  Class 4:      150,000 sampled ( 9.87%) ####
+           Using  6.60% of available 2,272,457 pixels
+  Class 5:      100,000 sampled ( 6.58%) ###
+           Using  6.78% of available 1,474,661 pixels
+
+  Total sampled: 1,519,225
+
+============================================================
