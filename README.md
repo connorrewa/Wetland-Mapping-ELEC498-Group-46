@@ -12,7 +12,7 @@ Automated wetland classification using Google Earth Engine satellite embeddings 
 - **Features:** 64-dimensional Google Earth embeddings
 - **Resolution:** 10m spatial resolution
 
-## Key Filesd
+## Key Files
 
 - **Training Data:** `wetland_dataset_1.5M_4Training.npz` (hosted on Google Drive)
 - **Labels:** `bow_river_wetlands_10m_final.tif`
