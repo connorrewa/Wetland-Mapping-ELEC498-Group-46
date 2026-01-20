@@ -1,6 +1,6 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, precision_recall_fscore_support
 import numpy as np
 import joblib
 import os
@@ -43,19 +43,27 @@ y_pred = rf_model.predict(X_test)
 # ====================================== 
 # EVALUATE THE MODEL
 # ====================================== 
+# Calculate detailed metrics
+precision, recall, f1, support = precision_recall_fscore_support(y_test, y_pred, average=None)
+precision_avg, recall_avg, f1_avg, _ = precision_recall_fscore_support(y_test, y_pred, average='weighted')
+conf_matrix = confusion_matrix(y_test, y_pred)
+
 # Overall accuracy
 accuracy = accuracy_score(y_test, y_pred)
 print(f"\n{'='*60}")
 print(f"MODEL EVALUATION RESULTS")
 print(f"{'='*60}")
 print(f"Accuracy: {accuracy:.4f} ({accuracy*100:.2f}%)")
+print(f"Precision (weighted): {precision_avg:.4f}")
+print(f"Recall (weighted): {recall_avg:.4f}")
+print(f"F1-Score (weighted): {f1_avg:.4f}")
 
 # Detailed per-class metrics
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred, target_names=[f'Class {i}' for i in range(6)]))
 # Confusion matrix
 print("\nConfusion Matrix:")
-print(confusion_matrix(y_test, y_pred))
+print(conf_matrix)
 
 
 # ======================================
@@ -82,7 +90,29 @@ metadata = {
     'version': version,
     'timestamp': timestamp,
     'trained_datetime': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-    'accuracy': float(accuracy),
+    
+    # Overall metrics
+    'overall_metrics': {
+        'accuracy': float(accuracy),
+        'precision_weighted': float(precision_avg),
+        'recall_weighted': float(recall_avg),
+        'f1_weighted': float(f1_avg),
+    },
+    
+    # Per-class metrics
+    'per_class_metrics': {
+        str(i): {
+            'precision': float(precision[i]),
+            'recall': float(recall[i]),
+            'f1_score': float(f1[i]),
+            'support': int(support[i])
+        }
+        for i in range(6)
+    },
+    
+    # Confusion matrix
+    'confusion_matrix': conf_matrix.tolist(),
+    
     'hyperparameters': {
         'n_estimators': 100,
         'class_weight': 'custom',
