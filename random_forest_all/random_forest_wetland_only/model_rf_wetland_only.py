@@ -82,7 +82,7 @@ class_weight_dict = {
 # Class 1 is very rare so its auto-calculated weight is very high,
 # causing 100% recall but poor precision (trigger-happy predictions).
 # Dampen it slightly to trade a little recall for better precision.
-CLASS1_DAMPEN = 0.5
+CLASS1_DAMPEN = 0.4
 class_weight_dict[1] = class_weight_dict[1] * CLASS1_DAMPEN
 
 print(f"\nRecalculated class weights (Classes 1–5, Class 1 dampened x{CLASS1_DAMPEN}):")

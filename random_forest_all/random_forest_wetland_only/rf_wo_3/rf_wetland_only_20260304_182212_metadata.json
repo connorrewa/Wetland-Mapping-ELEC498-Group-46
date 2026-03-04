@@ -1,0 +1,122 @@
+{
+  "timestamp": "20260304_182212",
+  "trained_datetime": "2026-03-04 18:22:12",
+  "pipeline_stage": "Stage 2 \u2014 wetland classification (post CNN background removal)",
+  "split_method": "middle_row_band",
+  "test_row_min": 9216,
+  "test_row_max": 12288,
+  "classes": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "note": "Class 0 (background) filtered from train and test before training. Intended for use after Stage 1 CNN background detection. Test region: middle latitude band rows 9216\u201312288. Class weights recalculated from filtered training set (Classes 1\u20135 only).",
+  "overall_metrics": {
+    "accuracy": 0.8226634639652577,
+    "precision_weighted": 0.8306816892070382,
+    "recall_weighted": 0.8226634639652577,
+    "f1_weighted": 0.8198309259734141
+  },
+  "per_class_metrics": {
+    "1": {
+      "precision": 0.5409220261809903,
+      "recall": 0.9887640449438202,
+      "f1_score": 0.6992862923993819,
+      "support": 4806
+    },
+    "2": {
+      "precision": 0.8869769628584862,
+      "recall": 0.75464,
+      "f1_score": 0.8154743894532094,
+      "support": 37500
+    },
+    "3": {
+      "precision": 0.8671902838816962,
+      "recall": 0.934512,
+      "f1_score": 0.8995933832362998,
+      "support": 125000
+    },
+    "4": {
+      "precision": 0.8334670487106017,
+      "recall": 0.58176,
+      "f1_score": 0.6852296819787986,
+      "support": 37500
+    },
+    "5": {
+      "precision": 0.6152211637213585,
+      "recall": 0.69488,
+      "f1_score": 0.6526288107894885,
+      "support": 25000
+    }
+  },
+  "confusion_matrix": [
+    [
+      4752,
+      24,
+      0,
+      0,
+      30
+    ],
+    [
+      3420,
+      28299,
+      0,
+      0,
+      5781
+    ],
+    [
+      35,
+      503,
+      116814,
+      4003,
+      3645
+    ],
+    [
+      10,
+      145,
+      14120,
+      21816,
+      1409
+    ],
+    [
+      568,
+      2934,
+      3770,
+      356,
+      17372
+    ]
+  ],
+  "confusion_matrix_labels": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "hyperparameters": {
+    "n_estimators": 200,
+    "max_depth": 25,
+    "min_samples_leaf": 20,
+    "feature_scaling": "StandardScaler",
+    "class_weight": "recalculated_over_classes_1_to_5",
+    "class1_dampen_factor": 0.5,
+    "n_jobs": -1,
+    "random_state": 42
+  },
+  "dataset": {
+    "source": "../random_forest_spatial_middle/wetland_dataset_middle_split.npz",
+    "class_0_filtered": true,
+    "n_train": 914418,
+    "n_test": 229806,
+    "n_features": 64
+  },
+  "class_weights": {
+    "1": 6.342197253433208,
+    "2": 1.219224,
+    "3": 0.3657672,
+    "4": 1.219224,
+    "5": 1.828836
+  }
+}
