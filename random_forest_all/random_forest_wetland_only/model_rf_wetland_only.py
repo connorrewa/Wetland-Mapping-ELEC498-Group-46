@@ -1,6 +1,5 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, precision_recall_fscore_support
-from sklearn.preprocessing import StandardScaler
 import numpy as np
 import joblib
 import os
@@ -91,14 +90,6 @@ for cls, w in class_weight_dict.items():
     print(f"  Class {cls}: weight={w:.4f}  (n={count:,})")
 
 # ======================================
-# FEATURE NORMALIZATION
-# ======================================
-scaler = StandardScaler()
-X_train = scaler.fit_transform(X_train)
-X_test  = scaler.transform(X_test)
-print("\nFeatures normalized with StandardScaler.")
-
-# ======================================
 # TRAIN THE MODEL
 # ======================================
 rf_model = RandomForestClassifier(
@@ -147,11 +138,9 @@ print(conf_matrix)
 # ======================================
 timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
 model_filename    = f'rf_wetland_only_{timestamp}.pkl'
-scaler_filename   = f'rf_wetland_only_scaler_{timestamp}.pkl'
 metadata_filename = f'rf_wetland_only_{timestamp}_metadata.json'
 
 joblib.dump(rf_model, os.path.join(SCRIPT_DIR, model_filename))
-joblib.dump(scaler,   os.path.join(SCRIPT_DIR, scaler_filename))
 
 metadata = {
     'timestamp': timestamp,
@@ -188,7 +177,7 @@ metadata = {
         'n_estimators':     200,
         'max_depth':        25,
         'min_samples_leaf': 20,
-        'feature_scaling':  'StandardScaler',
+        'feature_scaling':  'none',
         'class_weight':     'recalculated_over_classes_1_to_5',
         'class1_dampen_factor': CLASS1_DAMPEN,
         'n_jobs':           -1,
@@ -211,7 +200,6 @@ print(f"\n{'='*60}")
 print("MODEL SAVED")
 print(f"{'='*60}")
 print(f"Model:    {model_filename}")
-print(f"Scaler:   {scaler_filename}")
 print(f"Metadata: {metadata_filename}")
 print(f"\nReminder: At inference time, only pass pixels where the CNN")
 print(f"predicted NOT background (i.e., CNN class != 0) into this model.")
