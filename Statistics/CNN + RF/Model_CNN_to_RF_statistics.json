@@ -1,0 +1,131 @@
+{
+  "version": "Two-Stage Pipeline v11",
+  "timestamp": "20260308_205947",
+  "overall_metrics": {
+    "accuracy": 0.93045572360188,
+    "precision_weighted": 0.9255863304525639,
+    "recall_weighted": 0.9304557236018801,
+    "f1_weighted": 0.9267163379904619,
+    "iou_macro": 0.329642304296995
+  },
+  "per_class_metrics": {
+    "Background": {
+      "class_id": 0,
+      "precision": 0.9678019191405588,
+      "recall": 0.9713752779402053,
+      "f1_score": 0.9695853061421816,
+      "iou": 0.9409661100708426,
+      "support": 189518731
+    },
+    "Bog": {
+      "class_id": 1,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1_score": 0.0,
+      "iou": 0.0,
+      "support": 3355
+    },
+    "Fen": {
+      "class_id": 2,
+      "precision": 0.5630660394247317,
+      "recall": 0.8131081097414397,
+      "f1_score": 0.6653715494080119,
+      "iou": 0.4985444070110548,
+      "support": 1489246
+    },
+    "Marsh": {
+      "class_id": 3,
+      "precision": 0.5592286172470862,
+      "recall": 0.6018988889772545,
+      "f1_score": 0.5797797082093832,
+      "iou": 0.4082322380767509,
+      "support": 14007454
+    },
+    "Swamp": {
+      "class_id": 4,
+      "precision": 0.26404476567054586,
+      "recall": 0.03973253481877791,
+      "f1_score": 0.06907144033058624,
+      "iou": 0.035771100908032843,
+      "support": 2724392
+    },
+    "Open Water": {
+      "class_id": 5,
+      "precision": 0.18856437116241445,
+      "recall": 0.15881253395715977,
+      "f1_score": 0.17241437267922316,
+      "iou": 0.0943399697152886,
+      "support": 710454
+    }
+  },
+  "confusion_matrix": [
+    [
+      184093810,
+      7,
+      545790,
+      4586009,
+      129681,
+      163434
+    ],
+    [
+      1626,
+      0,
+      1618,
+      0,
+      0,
+      111
+    ],
+    [
+      179679,
+      0,
+      1210918,
+      2906,
+      8,
+      95735
+    ],
+    [
+      5214813,
+      0,
+      47977,
+      8431071,
+      170815,
+      142778
+    ],
+    [
+      464810,
+      0,
+      53651,
+      2014213,
+      108247,
+      83471
+    ],
+    [
+      263742,
+      0,
+      290625,
+      42052,
+      1206,
+      112829
+    ]
+  ],
+  "confusion_matrix_labels": [
+    "Background",
+    "Bog",
+    "Fen",
+    "Marsh",
+    "Swamp",
+    "Open Water"
+  ],
+  "architecture": {
+    "stage_1_model": "smp.Unet (Binary Wetland Masking)",
+    "stage_1_encoder": "efficientnet-b3",
+    "stage_1_loss": "CombinedLoss (Dice 60% + BCE 40%)",
+    "stage_2_model": "RandomForestClassifier (Multi-Class)",
+    "stage_2_source": "/content/drive/MyDrive/CapstoneRFData/models/rf_wetland_only_20260306_011209.pkl"
+  },
+  "dataset": {
+    "n_test_patches": 12723,
+    "n_features": 64,
+    "total_test_pixels": 208453632
+  }
+}
