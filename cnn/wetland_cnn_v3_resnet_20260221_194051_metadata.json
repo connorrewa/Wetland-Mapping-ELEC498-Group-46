@@ -1,0 +1,13 @@
+{
+  "timestamp": "20260221_194051",
+  "model_type": "ResNet18Wetland",
+  "input_channels": 64,
+  "patch_size": 15,
+  "num_classes": 6,
+  "best_val_acc": 0.4235,
+  "test_acc": 0.43216666666666664,
+  "optimizer": "AdamW_CosineAnnealingLR",
+  "dataset": {
+    "source": "wetland_cnn_dataset_15x15.npz"
+  }
+}

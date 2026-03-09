@@ -1,0 +1,12 @@
+{
+  "timestamp": "20260221_191955",
+  "model_type": "WetlandCNN15",
+  "input_channels": 64,
+  "patch_size": 15,
+  "num_classes": 6,
+  "best_val_acc": 0.44866666666666666,
+  "test_acc": 0.439,
+  "dataset": {
+    "source": "wetland_cnn_dataset_15x15.npz"
+  }
+}

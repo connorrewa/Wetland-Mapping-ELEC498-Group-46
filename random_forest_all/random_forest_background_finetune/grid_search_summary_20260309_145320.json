@@ -1,0 +1,92 @@
+[
+  {
+    "n_estimators": 300,
+    "max_depth": "35",
+    "accuracy": 0.6516,
+    "f1_weighted": 0.6517,
+    "f1_background": 0.5602,
+    "f1_wetland": 0.7115,
+    "train_secs": 291.1,
+    "model_file": "rf_bg_grid_est300_depth35_20260309_144834.pkl"
+  },
+  {
+    "n_estimators": 200,
+    "max_depth": "35",
+    "accuracy": 0.6513,
+    "f1_weighted": 0.6516,
+    "f1_background": 0.5603,
+    "f1_wetland": 0.7112,
+    "train_secs": 196.1,
+    "model_file": "rf_bg_grid_est200_depth35_20260309_143547.pkl"
+  },
+  {
+    "n_estimators": 300,
+    "max_depth": "None",
+    "accuracy": 0.6513,
+    "f1_weighted": 0.6514,
+    "f1_background": 0.5595,
+    "f1_wetland": 0.7115,
+    "train_secs": 280.5,
+    "model_file": "rf_bg_grid_est300_depthNone_20260309_145320.pkl"
+  },
+  {
+    "n_estimators": 200,
+    "max_depth": "None",
+    "accuracy": 0.651,
+    "f1_weighted": 0.6512,
+    "f1_background": 0.5596,
+    "f1_wetland": 0.711,
+    "train_secs": 187.9,
+    "model_file": "rf_bg_grid_est200_depthNone_20260309_143858.pkl"
+  },
+  {
+    "n_estimators": 100,
+    "max_depth": "35",
+    "accuracy": 0.6504,
+    "f1_weighted": 0.6509,
+    "f1_background": 0.5607,
+    "f1_wetland": 0.7097,
+    "train_secs": 94.7,
+    "model_file": "rf_bg_grid_est100_depth35_20260309_142726.pkl"
+  },
+  {
+    "n_estimators": 100,
+    "max_depth": "None",
+    "accuracy": 0.6492,
+    "f1_weighted": 0.6497,
+    "f1_background": 0.559,
+    "f1_wetland": 0.7088,
+    "train_secs": 93.5,
+    "model_file": "rf_bg_grid_est100_depthNone_20260309_142901.pkl"
+  },
+  {
+    "n_estimators": 300,
+    "max_depth": "25",
+    "accuracy": 0.6458,
+    "f1_weighted": 0.648,
+    "f1_background": 0.5699,
+    "f1_wetland": 0.6989,
+    "train_secs": 276.1,
+    "model_file": "rf_bg_grid_est300_depth25_20260309_144338.pkl"
+  },
+  {
+    "n_estimators": 100,
+    "max_depth": "25",
+    "accuracy": 0.6452,
+    "f1_weighted": 0.6475,
+    "f1_background": 0.5709,
+    "f1_wetland": 0.6975,
+    "train_secs": 92.1,
+    "model_file": "rf_bg_grid_est100_depth25_20260309_142550.pkl"
+  },
+  {
+    "n_estimators": 200,
+    "max_depth": "25",
+    "accuracy": 0.645,
+    "f1_weighted": 0.6473,
+    "f1_background": 0.5696,
+    "f1_wetland": 0.698,
+    "train_secs": 202.8,
+    "model_file": "rf_bg_grid_est200_depth25_20260309_143227.pkl"
+  }
+]

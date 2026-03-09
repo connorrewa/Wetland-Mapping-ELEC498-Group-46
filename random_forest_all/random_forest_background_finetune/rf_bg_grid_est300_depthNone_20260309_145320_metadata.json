@@ -1,0 +1,69 @@
+{
+  "timestamp": "20260309_145320",
+  "trained_datetime": "2026-03-09 14:53:15",
+  "pipeline_stage": "Stage 1 \u2014 binary classification (Background vs Wetland) (grid search)",
+  "split_method": "middle_row_band",
+  "test_row_min": 9216,
+  "test_row_max": 12288,
+  "classes": [
+    0,
+    1
+  ],
+  "overall_metrics": {
+    "accuracy": 0.6513114590080199,
+    "precision_weighted": 0.6515663063801894,
+    "recall_weighted": 0.6513114590080199,
+    "f1_weighted": 0.6514371125897127,
+    "f1_background": 0.5594754979576088,
+    "f1_wetland": 0.7114627089397452
+  },
+  "per_class_metrics": {
+    "0": {
+      "precision": 0.5583092120986802,
+      "recall": 0.5606466666666666,
+      "f1_score": 0.5594754979576088,
+      "support": 150000
+    },
+    "1": {
+      "precision": 0.7124374940002968,
+      "recall": 0.7104905877131146,
+      "f1_score": 0.7114627089397452,
+      "support": 229806
+    }
+  },
+  "confusion_matrix": [
+    [
+      84097,
+      65903
+    ],
+    [
+      66531,
+      163275
+    ]
+  ],
+  "confusion_matrix_labels": [
+    0,
+    1
+  ],
+  "hyperparameters": {
+    "n_estimators": 300,
+    "max_depth": null,
+    "min_samples_leaf": 20,
+    "feature_scaling": "none",
+    "class_weight": "balanced_binary_with_manual_boost",
+    "background_boost_factor": 2,
+    "n_jobs": -1,
+    "random_state": 42
+  },
+  "dataset": {
+    "source": "../random_forest_spatial_middle/wetland_dataset_middle_split.npz",
+    "n_train": 1514418,
+    "n_test": 379806,
+    "n_features": 64
+  },
+  "class_weights": {
+    "0": 2.52403,
+    "1": 0.8280775312821926
+  },
+  "train_seconds": 280.531071
+}
