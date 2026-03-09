@@ -1,0 +1,121 @@
+{
+  "timestamp": "20260309_140453",
+  "trained_datetime": "2026-03-09 14:04:53",
+  "split_method": "random_split",
+  "note": "GPU-accelerated SVM with RBF kernel using RAPIDS cuML. Data split 80/20 randomly.",
+  "overall_metrics": {
+    "accuracy": 0.7046553341341802,
+    "precision_weighted": 0.7515738635555393,
+    "recall_weighted": 0.7046553341341802,
+    "f1_weighted": 0.7092358216538193
+  },
+  "per_class_metrics": {
+    "0": {
+      "precision": 0.8986430456087449,
+      "recall": 0.5951966846139123,
+      "f1_score": 0.7161000615748134,
+      "support": 120167
+    },
+    "1": {
+      "precision": 0.6226383547901688,
+      "recall": 0.9677754677754677,
+      "f1_score": 0.7577576559161664,
+      "support": 3848
+    },
+    "2": {
+      "precision": 0.6961573743757008,
+      "recall": 0.9166247273947324,
+      "f1_score": 0.7913221045923909,
+      "support": 29805
+    },
+    "3": {
+      "precision": 0.7319569332702319,
+      "recall": 0.7423577292681219,
+      "f1_score": 0.7371206442036072,
+      "support": 100003
+    },
+    "4": {
+      "precision": 0.5023174352292873,
+      "recall": 0.7845086396690907,
+      "f1_score": 0.6124718413479693,
+      "support": 29978
+    },
+    "5": {
+      "precision": 0.4476889596258161,
+      "recall": 0.6876371981640391,
+      "f1_score": 0.5423068599870158,
+      "support": 20044
+    }
+  },
+  "confusion_matrix": [
+    [
+      71523,
+      755,
+      6969,
+      22510,
+      7868,
+      10542
+    ],
+    [
+      1,
+      3724,
+      110,
+      0,
+      0,
+      13
+    ],
+    [
+      252,
+      829,
+      27320,
+      0,
+      0,
+      1404
+    ],
+    [
+      6578,
+      90,
+      741,
+      74238,
+      14839,
+      3517
+    ],
+    [
+      688,
+      22,
+      373,
+      3849,
+      23518,
+      1528
+    ],
+    [
+      548,
+      561,
+      3731,
+      827,
+      594,
+      13783
+    ]
+  ],
+  "hyperparameters": {
+    "kernel": "rbf",
+    "C": 1.0,
+    "gamma": "scale",
+    "class_weight": "balanced",
+    "feature_scaling": "StandardScaler"
+  },
+  "dataset": {
+    "source": "/content/drive/MyDrive/wetland_dataset_1.5M_4Training.npz",
+    "n_train": 1215380,
+    "n_test": 303845,
+    "n_features": 64
+  },
+  "class_weights": {
+    "0": 0.42215381879389985,
+    "1": 13.173137369664651,
+    "2": 1.6852891828556373,
+    "3": 0.5064121314243191,
+    "4": 1.687718362744608,
+    "5": 2.5334350559474377
+  }
+}
