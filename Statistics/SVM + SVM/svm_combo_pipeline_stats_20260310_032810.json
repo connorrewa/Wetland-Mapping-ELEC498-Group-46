@@ -1,0 +1,106 @@
+{
+  "model": "SVM RBF Two-Stage Pipeline",
+  "timestamp": "20260310_032810",
+  "backend": "cuML (GPU)",
+  "stage1_params": {
+    "C": 1.0,
+    "gamma": "scale"
+  },
+  "stage2_params": {
+    "C": 5.0,
+    "gamma": "scale"
+  },
+  "stage1_model_file": "/content/drive/MyDrive/SVM_Pipeline/svm_rbf_s1_C1.0_gammascale_20260310_032523.pkl",
+  "stage2_model_file": "/content/drive/MyDrive/SVM_Pipeline/svm_rbf_s2_C5.0_gammascale_20260310_032758.pkl",
+  "accuracy": 0.574525,
+  "weighted_f1": 0.572259,
+  "mean_wetland_f1": 0.55202,
+  "per_class": {
+    "Background": {
+      "precision": 0.585916,
+      "recall": 0.554507,
+      "f1": 0.569779,
+      "support": 150000
+    },
+    "Fen (Graminoid)": {
+      "precision": 0.478678,
+      "recall": 0.871203,
+      "f1": 0.617871,
+      "support": 4806
+    },
+    "Fen (Woody)": {
+      "precision": 0.796062,
+      "recall": 0.374107,
+      "f1": 0.509007,
+      "support": 37500
+    },
+    "Marsh": {
+      "precision": 0.599848,
+      "recall": 0.643896,
+      "f1": 0.621092,
+      "support": 125000
+    },
+    "Shallow OW": {
+      "precision": 0.467237,
+      "recall": 0.670453,
+      "f1": 0.550695,
+      "support": 37500
+    },
+    "Swamp": {
+      "precision": 0.476286,
+      "recall": 0.44748,
+      "f1": 0.461434,
+      "support": 25000
+    }
+  },
+  "confusion_matrix": [
+    [
+      83176,
+      643,
+      2284,
+      44462,
+      11523,
+      7912
+    ],
+    [
+      595,
+      4187,
+      8,
+      0,
+      0,
+      16
+    ],
+    [
+      18288,
+      3421,
+      14029,
+      0,
+      0,
+      1762
+    ],
+    [
+      25908,
+      50,
+      89,
+      80487,
+      16620,
+      1846
+    ],
+    [
+      4214,
+      13,
+      35,
+      7331,
+      25142,
+      765
+    ],
+    [
+      9778,
+      433,
+      1178,
+      1899,
+      525,
+      11187
+    ]
+  ]
+}

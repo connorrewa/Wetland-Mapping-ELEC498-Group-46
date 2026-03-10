@@ -1,0 +1,143 @@
+{
+  "timestamp": "20260309_235639",
+  "evaluation_datetime": "2026-03-09 23:56:32",
+  "pipeline_stage": "Two-Stage Combination Pipeline",
+  "split_method": "middle_row_band",
+  "test_row_min": 9216,
+  "test_row_max": 12288,
+  "classes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "overall_metrics": {
+    "accuracy": 0.5907805563893146,
+    "precision_weighted": 0.6181683757704813,
+    "recall_weighted": 0.5907805563893146,
+    "f1_weighted": 0.5742470482606726,
+    "mean_wetland_f1": 0.6098825955029362
+  },
+  "per_class_metrics": {
+    "0": {
+      "precision": 0.6394490900147565,
+      "recall": 0.39,
+      "f1_score": 0.48450214299024785,
+      "support": 150000
+    },
+    "1": {
+      "precision": 0.5274994173852249,
+      "recall": 0.9419475655430711,
+      "f1_score": 0.6762772632207947,
+      "support": 4806
+    },
+    "2": {
+      "precision": 0.7322687505308757,
+      "recall": 0.4597866666666667,
+      "f1_score": 0.5648854961832062,
+      "support": 37500
+    },
+    "3": {
+      "precision": 0.5482732919254658,
+      "recall": 0.88272,
+      "f1_score": 0.6764137931034483,
+      "support": 125000
+    },
+    "4": {
+      "precision": 0.7696302752959977,
+      "recall": 0.5650933333333333,
+      "f1_score": 0.651689885290771,
+      "support": 37500
+    },
+    "5": {
+      "precision": 0.45904629866102376,
+      "recall": 0.50328,
+      "f1_score": 0.48014653971646093,
+      "support": 25000
+    }
+  },
+  "confusion_matrix": [
+    [
+      58500,
+      544,
+      3582,
+      73956,
+      2974,
+      10444
+    ],
+    [
+      263,
+      4527,
+      9,
+      0,
+      0,
+      7
+    ],
+    [
+      16355,
+      2788,
+      17242,
+      0,
+      0,
+      1115
+    ],
+    [
+      8978,
+      30,
+      337,
+      110340,
+      3076,
+      2239
+    ],
+    [
+      1394,
+      18,
+      141,
+      13734,
+      21191,
+      1022
+    ],
+    [
+      5995,
+      675,
+      2235,
+      3220,
+      293,
+      12582
+    ]
+  ],
+  "confusion_matrix_labels": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "stage1_hyperparameters": {
+    "n_estimators": 300,
+    "max_depth": 35,
+    "min_samples_leaf": 20,
+    "background_boost_factor": 1.0
+  },
+  "stage2_hyperparameters": {
+    "n_estimators": 300,
+    "max_depth": 35,
+    "min_samples_leaf": 20,
+    "class1_dampen_factor": 1.0
+  },
+  "dataset": {
+    "source": "../random_forest_spatial_middle/wetland_dataset_middle_split.npz",
+    "n_train": 1514418,
+    "n_test": 379806,
+    "n_features": 64
+  },
+  "stage1_train_seconds": 781.269649,
+  "stage2_train_seconds": 449.258944,
+  "saved_models": {
+    "stage1_model_path": "rf_stage1_combo_model_20260309_235639.pkl",
+    "stage2_model_path": "rf_stage2_combo_model_20260309_235639.pkl"
+  }
+}

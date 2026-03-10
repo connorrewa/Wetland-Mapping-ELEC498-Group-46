@@ -12,18 +12,22 @@ import json
 # ======================================
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_PATH = os.path.join(SCRIPT_DIR, '..', 'random_forest_spatial_middle', 'wetland_dataset_middle_split.npz')
+DATA_PATH = os.path.join(SCRIPT_DIR, '..', '..', 'wetland_dataset_middle_split.npz')
 
 # ---- Hyperparameters ----
 S1_N_ESTIMATORS = 300
 S1_MAX_DEPTH    = 35
 S1_MIN_SAMPLES_LEAF = 20
-BACKGROUND_BOOST = 2
+# BACKGROUND_BOOST removed — boosting BG weight caused Stage 1 to
+# under-predict wetland (more FN). Pure balanced weights work better.
+BACKGROUND_BOOST = 1.0
 
 S2_N_ESTIMATORS = 300
 S2_MAX_DEPTH    = 35
 S2_MIN_SAMPLES_LEAF = 20
-CLASS1_DAMPEN   = 0.4
+# CLASS1_DAMPEN removed — Fen Graminoid is the rarest wetland class
+# (4.8K train samples); dampening its weight was harming its recall.
+CLASS1_DAMPEN   = 1.0
 
 # ======================================
 # LOAD DATA
@@ -96,7 +100,7 @@ rf_stage1 = RandomForestClassifier(
     min_samples_leaf=S1_MIN_SAMPLES_LEAF,
     random_state=42,
     class_weight=s1_weight_dict,
-    verbose=0,
+    verbose=1,
     n_jobs=-1,
 )
 rf_stage1.fit(X_train, y_train_s1)
@@ -235,9 +239,17 @@ metadata = {
 with open(os.path.join(SCRIPT_DIR, metadata_filename), 'w') as f:
     json.dump(metadata, f, indent=2)
 
+# Also save to Statistics/RF + RF/ for the comparison dashboard
+stats_dir = os.path.join(SCRIPT_DIR, '..', '..', 'Statistics', 'RF + RF')
+os.makedirs(stats_dir, exist_ok=True)
+stats_path = os.path.join(stats_dir, f'Model_RF_to_RF_statistics_{timestamp}.json')
+with open(stats_path, 'w') as f:
+    json.dump(metadata, f, indent=2)
+
 print(f"{'='*60}")
 print("MODELS AND METADATA SAVED")
 print(f"{'='*60}")
 print(f"Stage 1 Model: {stage1_model_filename}")
 print(f"Stage 2 Model: {stage2_model_filename}")
 print(f"Metadata:      {metadata_filename}")
+print(f"Statistics:    {stats_path}")
