@@ -8,6 +8,7 @@ Generates two figures comparing all 6 models across Statistics subfolders:
 Class structure note
 --------------------
 All classes are labelled according to the truth source (class_names_truth_source.txt):
+  class 0 = Background
   class 1 = Fen (Graminoid)
   class 2 = Fen (Woody)
   class 3 = Marsh
@@ -51,6 +52,7 @@ CNN_MODELS = {"CNN\n(U-Net v12)", "CNN+RF\nPipeline"}
 
 # X-axis labels — truth source (class_names_truth_source.txt)
 CLASS_NAMES = [
+    "Background",
     "Fen\n(Graminoid)",
     "Fen\n(Woody)",
     "Marsh",
@@ -73,52 +75,51 @@ MODEL_PALETTE = [MODEL_COLORS[m] for m in MODEL_LABELS]
 
 # ── Data extraction helpers ───────────────────────────────────────────────────
 
-def extract_wetland_f1s(model_name: str, data: dict) -> list:
-    """Return a list of 5 F1 scores for wetland classes 1–5."""
+def extract_all_f1s(model_name: str, data: dict) -> list:
+    """Return a list of 6 F1 scores: [background, class1..class5]."""
     if model_name in CNN_MODELS:
-        # Keys are class name strings; class order: Bog, Fen, Marsh, Swamp, Open Water
+        # Keys are class name strings; class order: Background, Bog, Fen, Marsh, Swamp, Open Water
         pcm = data["per_class_metrics"]
-        return [pcm[k]["f1_score"] for k in ["Bog", "Fen", "Marsh", "Swamp", "Open Water"]]
+        bg = pcm["Background"]["f1_score"]
+        return [bg] + [pcm[k]["f1_score"] for k in ["Bog", "Fen", "Marsh", "Swamp", "Open Water"]]
 
     pcm = data.get("per_class_metrics") or data.get("per_class", {})
 
     if "1" in pcm:
         # Numeric string keys (RF, RF+RF, SVM)
         key = "f1_score" if "f1_score" in pcm["1"] else "f1"
-        return [pcm[str(i)][key] for i in range(1, 6)]
+        bg_key = "f1_score" if "f1_score" in pcm.get("0", {"f1_score": 0}) else "f1"
+        bg = pcm.get("0", {}).get(bg_key, 0.0)
+        return [bg] + [pcm[str(i)][key] for i in range(1, 6)]
 
     # Named keys (SVM+SVM)
+    bg = pcm["Background"]["f1"]
     keys = ["Fen (Graminoid)", "Fen (Woody)", "Marsh", "Shallow OW", "Swamp"]
-    return [pcm[k]["f1"] for k in keys]
+    return [bg] + [pcm[k]["f1"] for k in keys]
 
 
-def get_mean_wetland_f1(data: dict, f1s: list) -> float:
-    """Return pre-computed mean if present, otherwise compute from f1s."""
-    om = data.get("overall_metrics", {})
-    if "mean_wetland_f1" in om:
-        return om["mean_wetland_f1"]
-    if "mean_wetland_f1" in data:
-        return float(data["mean_wetland_f1"])
+def get_mean_f1(f1s: list) -> float:
+    """Return mean F1 over all 6 classes (background + wetland)."""
     return float(np.mean(f1s))
 
 
 # ── Load all models ───────────────────────────────────────────────────────────
 per_class_f1 = {}
-mean_wetland_f1 = {}
+mean_f1 = {}
 
 for model_name, filepath in FILES.items():
     with open(filepath, "r", encoding="utf-8") as fh:
         data = json.load(fh)
-    f1s = extract_wetland_f1s(model_name, data)
+    f1s = extract_all_f1s(model_name, data)
     per_class_f1[model_name] = f1s
-    mean_wetland_f1[model_name] = get_mean_wetland_f1(data, f1s)
+    mean_f1[model_name] = get_mean_f1(f1s)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # FIGURE 1 — Mean Wetland F1 (all models)
 # ─────────────────────────────────────────────────────────────────────────────
 fig1, ax1 = plt.subplots(figsize=(13, 6))
 
-mean_vals = [mean_wetland_f1[m] for m in MODEL_LABELS]
+mean_vals = [mean_f1[m] for m in MODEL_LABELS]
 x = np.arange(len(MODEL_LABELS))
 bars = ax1.bar(x, mean_vals, width=0.55, color=MODEL_PALETTE,
                edgecolor="white", linewidth=1.2, zorder=3)
@@ -126,8 +127,8 @@ bars = ax1.bar(x, mean_vals, width=0.55, color=MODEL_PALETTE,
 ax1.set_ylim(0, max(mean_vals) * 1.22)
 ax1.set_xticks(x)
 ax1.set_xticklabels(MODEL_LABELS, fontsize=12)
-ax1.set_ylabel("Mean Wetland F1 (Classes 1–5)", fontsize=12)
-ax1.set_title("Mean Wetland F1 Score — All Model Comparison",
+ax1.set_ylabel("Mean F1 (Classes 0–5)", fontsize=12)
+ax1.set_title("Mean F1 Score (All Classes) — All Model Comparison",
               fontsize=14, fontweight="bold", pad=12)
 ax1.yaxis.grid(True, alpha=0.3, zorder=0)
 ax1.set_axisbelow(True)
@@ -135,11 +136,6 @@ ax1.set_axisbelow(True)
 for bar, val in zip(bars, mean_vals):
     ax1.text(bar.get_x() + bar.get_width() / 2, val + 0.008,
              f"{val:.3f}", ha="center", va="bottom", fontsize=11, fontweight="bold")
-
-ax1.text(0.01, 0.01,
-         "Classes 1–5: Fen (Graminoid), Fen (Woody), Marsh, Shallow Open Water, Swamp  "
-         "(truth source — aligned by class ID across all models)",
-         transform=ax1.transAxes, fontsize=8, color="grey", va="bottom")
 
 fig1.tight_layout()
 out1 = os.path.join(os.path.dirname(os.path.abspath(__file__)),
@@ -168,7 +164,7 @@ ax2.set_xticks(x_centers)
 ax2.set_xticklabels(CLASS_NAMES, fontsize=9)
 ax2.set_ylim(0, 1.10)
 ax2.set_ylabel("F1 Score", fontsize=12)
-ax2.set_title("Per-Class F1 Score — All Model Comparison",
+ax2.set_title("Per-Class F1 Score (All Classes) — All Model Comparison",
               fontsize=14, fontweight="bold", pad=12)
 ax2.yaxis.grid(True, alpha=0.3, zorder=0)
 ax2.set_axisbelow(True)
@@ -185,5 +181,41 @@ out2 = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                     "all_models_per_class_f1.png")
 fig2.savefig(out2, dpi=200, bbox_inches="tight", facecolor="white")
 print(f"Saved: {out2}")
+
+# ─────────────────────────────────────────────────────────────────────────────
+# FIGURE 3 — Weighted F1 (all models)
+# ─────────────────────────────────────────────────────────────────────────────
+weighted_f1 = {}
+for model_name, filepath in FILES.items():
+    with open(filepath, "r", encoding="utf-8") as fh:
+        data = json.load(fh)
+    om = data.get("overall_metrics", {})
+    val = om.get("f1_weighted") or data.get("weighted_f1")
+    weighted_f1[model_name] = float(val)
+
+fig3, ax3 = plt.subplots(figsize=(13, 6))
+
+wf1_vals = [weighted_f1[m] for m in MODEL_LABELS]
+bars3 = ax3.bar(x, wf1_vals, width=0.55, color=MODEL_PALETTE,
+                edgecolor="white", linewidth=1.2, zorder=3)
+
+ax3.set_ylim(0, max(wf1_vals) * 1.22)
+ax3.set_xticks(x)
+ax3.set_xticklabels(MODEL_LABELS, fontsize=12)
+ax3.set_ylabel("Weighted F1 Score", fontsize=12)
+ax3.set_title("Weighted F1 Score — All Model Comparison",
+              fontsize=14, fontweight="bold", pad=12)
+ax3.yaxis.grid(True, alpha=0.3, zorder=0)
+ax3.set_axisbelow(True)
+
+for bar, val in zip(bars3, wf1_vals):
+    ax3.text(bar.get_x() + bar.get_width() / 2, val + 0.008,
+             f"{val:.3f}", ha="center", va="bottom", fontsize=11, fontweight="bold")
+
+fig3.tight_layout()
+out3 = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                    "all_models_weighted_f1.png")
+fig3.savefig(out3, dpi=200, bbox_inches="tight", facecolor="white")
+print(f"Saved: {out3}")
 
 print("\nDone.")
