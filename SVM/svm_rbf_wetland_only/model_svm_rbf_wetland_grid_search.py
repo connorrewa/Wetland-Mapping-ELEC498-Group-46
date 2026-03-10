@@ -43,8 +43,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 DATA_PATH = os.path.join(
-    SCRIPT_DIR, '..', '..', 'random_forest_all',
-    'random_forest_spatial_middle', 'wetland_dataset_middle_split.npz'
+    SCRIPT_DIR, '..', '..', 'wetland_dataset_middle_split.npz'
 )
 
 # !! Update this to the scaler produced by Stage 1 grid search !!

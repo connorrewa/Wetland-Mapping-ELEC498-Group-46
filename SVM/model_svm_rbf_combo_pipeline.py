@@ -43,8 +43,7 @@ SCALER_PATH        = os.path.join(SCRIPT_DIR, 'svm_rbf_background',
                                   'svm_rbf_bg_scaler.pkl')
 
 DATA_PATH = os.path.join(
-    SCRIPT_DIR, '..', 'random_forest_all',
-    'random_forest_spatial_middle', 'wetland_dataset_middle_split.npz'
+    SCRIPT_DIR, '..', 'wetland_dataset_middle_split.npz'
 )
 # ─────────────────────────────────────────────────────────────────────────────
 

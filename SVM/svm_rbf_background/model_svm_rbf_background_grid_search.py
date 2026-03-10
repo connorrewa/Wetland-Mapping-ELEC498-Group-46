@@ -41,10 +41,8 @@ print(f"SVM backend: {BACKEND}")
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# ── Update this path if running on Colab ──────────────────────────────────────
 DATA_PATH = os.path.join(
-    SCRIPT_DIR, '..', '..', 'random_forest_all',
-    'random_forest_spatial_middle', 'wetland_dataset_middle_split.npz'
+    SCRIPT_DIR, '..', '..', 'wetland_dataset_middle_split.npz'
 )
 
 # ── Hyperparameter grid ───────────────────────────────────────────────────────
