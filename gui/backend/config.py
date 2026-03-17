@@ -10,11 +10,9 @@ import os
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _REPO_ROOT = os.path.abspath(os.path.join(_HERE, '..', '..'))
 
-# ── Pre-computed GeoTIFF ──────────────────────────────────────────────────────
-# Point this at whatever GeoTIFF you want to display (label raster for demo,
-# model output for the final version — same backend either way).
-#CHANGE THIS DEPENDING ON WHAT MACHINE WE'RE ON
-GEOTIFF_PATH = r"C:\Users\gavin\ELEC498\bow_river_wetlands_10m_final.tif"
+# ── Pre-computed GeoTIFF Directory ────────────────────────────────────────────
+# Point this at the directory containing your GeoTIFF files.
+GEOTIFF_DIR = r"C:\Users\gavin\.gemini\antigravity\scratch\Wetland-Mapping-ELEC498-Group-46\gui\frontend\tif_files"
 
 # ── Wetland class definitions ─────────────────────────────────────────────────
 # Must match CONFIG.WETLAND_CLASSES in frontend/app.js

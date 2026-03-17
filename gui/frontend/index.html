@@ -94,7 +94,18 @@
                             <h3 class="card-title">Model Information</h3>
                         </div>
 
-                        <div style="display: grid; gap: var(--space-sm);">
+                        <div style="display: grid; gap: var(--space-md);">
+                            <!-- File Selector -->
+                            <div>
+                                <label for="tifSelector"
+                                    style="display: block; font-size: 0.875rem; color: var(--text-muted); margin-bottom: var(--space-xs);">Select
+                                    Prediction File</label>
+                                <select id="tifSelector" class="form-select"
+                                    style="width: 100%; padding: 0.5rem; border-radius: 4px; border: 1px solid var(--border-color); background-color: var(--bg-color); color: var(--text-primary);">
+                                    <option value="">Loading files...</option>
+                                </select>
+                            </div>
+
                             <div>
                                 <p style="font-size: 0.875rem; color: var(--text-muted);">Algorithm</p>
                                 <p style="font-weight: 600;">Random Forest Classifier</p>
@@ -166,30 +177,6 @@
                                 <canvas id="distributionChart"></canvas>
                             </div>
                         </div>
-
-                        <!-- Export Options -->
-                        <div class="card mt-lg">
-                            <div class="card-header">
-                                <div class="card-icon">💾</div>
-                                <h3 class="card-title">Export Results</h3>
-                            </div>
-
-                            <div
-                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--space-sm);">
-                                <button class="btn btn-secondary" id="exportCSV">
-                                    <span>📄</span>
-                                    <span>Export CSV</span>
-                                </button>
-                                <button class="btn btn-secondary" id="exportJSON">
-                                    <span>📋</span>
-                                    <span>Export JSON</span>
-                                </button>
-                                <button class="btn btn-secondary" id="exportPNG">
-                                    <span>🖼️</span>
-                                    <span>Save Map PNG</span>
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -199,7 +186,7 @@
     <!-- Loading Overlay -->
     <div id="loadingOverlay" class="loading-overlay hidden">
         <div class="loading"></div>
-        <p style="font-size: 1.125rem; font-weight: 600;">Classifying wetlands...</p>
+        <p id="loadingText" style="font-size: 1.125rem; font-weight: 600;">Loading data...</p>
         <p style="color: var(--text-secondary);">This may take a moment</p>
         <div style="width: 300px; margin-top: var(--space-md);">
             <div class="progress-bar">
@@ -211,6 +198,8 @@
     <!-- External Libraries -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- ✅ ADDED: proj4 must load before georaster for CRS reprojection to work -->
+    <script src="https://unpkg.com/proj4@2.9.0/dist/proj4.js"></script>
     <!-- GeoTIFF rendering for Leaflet -->
     <script src="https://unpkg.com/georaster"></script>
     <script src="https://unpkg.com/georaster-layer-for-leaflet"></script>

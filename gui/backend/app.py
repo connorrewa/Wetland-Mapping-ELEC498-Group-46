@@ -17,7 +17,7 @@ import logging
 import os
 from collections import Counter
 
-from flask import Flask, jsonify, send_file, abort
+from flask import Flask, jsonify, send_file, abort, request
 from flask_cors import CORS
 import rasterio
 import numpy as np
@@ -37,18 +37,19 @@ app = Flask(__name__)
 CORS(app)  # Allow browser frontend to reach this server
 
 # Module-level cache for stats
-_cached_stats = None
+_cached_stats = {}
 
-def _get_stats():
-    global _cached_stats
-    if _cached_stats is not None:
-        return _cached_stats
+def _get_stats(filename):
+    if filename in _cached_stats:
+        return _cached_stats[filename]
 
-    logger.info(f"Computing stats from GeoTIFF: {config.GEOTIFF_PATH}")
-    if not os.path.exists(config.GEOTIFF_PATH):
-        raise FileNotFoundError(f"GeoTIFF not found: {config.GEOTIFF_PATH}")
+    filepath = os.path.join(config.GEOTIFF_DIR, filename)
+
+    logger.info(f"Computing stats from GeoTIFF: {filepath}")
+    if not os.path.exists(filepath):
+        raise FileNotFoundError(f"GeoTIFF not found: {filepath}")
         
-    with rasterio.open(config.GEOTIFF_PATH) as src:
+    with rasterio.open(filepath) as src:
         data = src.read(1)
         
     valid_mask = (data >= config.VALID_CLASS_MIN) & (data <= config.VALID_CLASS_MAX)
@@ -57,14 +58,14 @@ def _get_stats():
     class_distribution = {str(k): counts.get(k, 0) for k in config.WETLAND_CLASSES}
     total = int(valid_pixels.size)
     
-    _cached_stats = {
+    _cached_stats[filename] = {
         'total_samples': total,
         'class_distribution': class_distribution,
         'confidence': None,     
         'model_type': 'Pre-computed GeoTIFF',
         'geotiff_ready': True,
     }
-    return _cached_stats
+    return _cached_stats[filename]
 
 # ── Routes ────────────────────────────────────────────────────────────────────
 
@@ -74,11 +75,29 @@ def health():
     return jsonify({'status': 'ok'})
 
 
+@app.route('/api/files')
+def list_files():
+    """Return a list of available GeoTIFF files."""
+    try:
+        if not os.path.exists(config.GEOTIFF_DIR):
+            return jsonify([])
+        files = [f for f in os.listdir(config.GEOTIFF_DIR) if f.endswith('.tif') or f.endswith('.tiff')]
+        # Sort files so RF is first if possible, based on user preference
+        files.sort(key=lambda x: 0 if 'RF' in x else 1)
+        return jsonify(files)
+    except Exception as e:
+        logger.exception("Failed to list files")
+        abort(500, description=str(e))
+
+
 @app.route('/api/results')
 def results():
     """Return classification statistics as JSON."""
+    filename = request.args.get('file')
+    if not filename:
+        abort(400, description="Missing 'file' parameter")
     try:
-        stats = _get_stats()
+        stats = _get_stats(filename)
         return jsonify(stats)
     except FileNotFoundError as e:
         logger.error(str(e))
@@ -91,14 +110,20 @@ def results():
 @app.route('/api/geotiff')
 def geotiff():
     """Stream the pre-computed predictions GeoTIFF file."""
-    if not os.path.exists(config.GEOTIFF_PATH):
-        abort(404, description=f'{os.path.basename(config.GEOTIFF_PATH)} not found on disk.')
+    filename = request.args.get('file')
+    if not filename:
+        abort(400, description="Missing 'file' parameter")
+        
+    filepath = os.path.join(config.GEOTIFF_DIR, filename)
+
+    if not os.path.exists(filepath):
+        abort(404, description=f'{filename} not found on disk.')
 
     return send_file(
-        config.GEOTIFF_PATH,
+        filepath,
         mimetype='image/tiff',
         as_attachment=False,
-        download_name=os.path.basename(config.GEOTIFF_PATH),
+        download_name=filename,
     )
 
 
@@ -115,7 +140,7 @@ if __name__ == '__main__':
     logger.info("=" * 60)
     logger.info("Wetland Mapping Backend (Static GeoTIFF Mode)")
     logger.info("=" * 60)
-    logger.info(f"Serving GeoTIFF: {config.GEOTIFF_PATH}")
+    logger.info(f"Serving GeoTIFFs from: {config.GEOTIFF_DIR}")
     logger.info("=" * 60)
     logger.info("Starting server on http://localhost:5000")
     app.run(host='0.0.0.0', port=5000, debug=False)
